@@ -2607,6 +2607,387 @@ footer {
   </div>
 </section>
 
+<!-- ─── DELIVERY TIMELINE ─── -->
+<section id="timeline" style="padding-top: 100px; padding-bottom: 120px;">
+  <p class="section-label reveal">05 — Delivery Plan</p>
+  <h2 class="reveal">Timeline<em> — 15 June 2026</em></h2>
+  <p class="reveal" style="color: var(--muted2); font-size: 15px; max-width: 560px; margin-bottom: 64px; font-weight: 300; line-height: 1.75;">
+    Phase 1–3 (Fundamental) ทั้งหมดจะเสร็จสิ้นภายใน 15 มิถุนายน 2026 · Phase 4–6 (AI Layer) ยังไม่ประเมิน — รอ Fundamental เสร็จก่อน
+  </p>
+
+  <style>
+    /* ── Timeline wrapper ── */
+    .tl-wrap {
+      position: relative;
+      max-width: 860px;
+    }
+
+    /* vertical spine */
+    .tl-spine {
+      position: absolute;
+      left: 148px;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--border2) 0%, transparent 100%);
+    }
+
+    /* each row */
+    .tl-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-bottom: 10px;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .tl-row.tl-visible { opacity: 1; transform: translateY(0); }
+
+    /* date label on left */
+    .tl-date {
+      width: 148px;
+      flex-shrink: 0;
+      padding-right: 28px;
+      padding-top: 18px;
+      text-align: right;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* dot on spine */
+    .tl-dot-wrap {
+      flex-shrink: 0;
+      width: 0;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .tl-dot {
+      position: relative;
+      top: 22px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--border2);
+      border: 2px solid var(--border2);
+      flex-shrink: 0;
+      margin-left: -4px;
+      z-index: 2;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .tl-dot.done   { background: var(--green);  border-color: var(--green); box-shadow: 0 0 10px rgba(76,175,130,0.4); }
+    .tl-dot.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 14px rgba(232,131,74,0.5); }
+    .tl-dot.pending{ background: transparent;   border-color: var(--border2); }
+
+    /* card */
+    .tl-card {
+      margin-left: 28px;
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tl-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .tl-card.done::before   { background: var(--green); }
+    .tl-card.active::before { background: var(--accent); }
+    .tl-card.pending::before{ background: var(--border2); }
+
+    .tl-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .tl-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+    .tl-badge {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .tl-badge.done    { background: rgba(76,175,130,0.12);  color: var(--green); }
+    .tl-badge.active  { background: rgba(232,131,74,0.12);  color: var(--accent); }
+    .tl-badge.pending { background: rgba(107,109,116,0.12); color: var(--muted2); }
+
+    .tl-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tl-task {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted2);
+      line-height: 1.45;
+    }
+    .tl-task-icon {
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px;
+    }
+    .tl-task-icon.done    { background: rgba(76,175,130,0.18);  color: var(--green); }
+    .tl-task-icon.active  { background: rgba(232,131,74,0.15);  color: var(--accent); }
+    .tl-task-icon.pending { background: rgba(107,109,116,0.12); color: var(--muted); }
+
+    .tl-hrs {
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: auto;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* separator between phases */
+    .tl-phase-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 0 24px;
+      padding-left: 148px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .tl-phase-label.tl-visible { opacity: 1; transform: translateY(0); }
+    .tl-phase-label-text {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .tl-phase-label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* AI layer pending block */
+    .tl-ai-block {
+      margin-left: 176px;
+      border: 1px dashed var(--border2);
+      border-radius: 14px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .tl-ai-block.tl-visible { opacity: 1; transform: translateY(0); }
+    .tl-ai-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .tl-ai-text { color: var(--muted2); font-size: 13px; line-height: 1.7; }
+    .tl-ai-text strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 4px; font-size: 14px; }
+  </style>
+
+  <div class="tl-wrap">
+    <div class="tl-spine"></div>
+
+    <!-- ── PHASE 1: DATA MODEL ── -->
+    <div class="tl-phase-label tl-anim" style="padding-left:0; margin-top:0; margin-bottom: 20px;">
+      <div class="tl-phase-label-text" style="color:var(--accent);">Phase 1 · Data Model</div>
+      <div class="tl-phase-label-line"></div>
+    </div>
+
+    <!-- Lead — Done -->
+    <div class="tl-row tl-anim">
+      <div class="tl-date"></div>
+      <div class="tl-dot done"></div>
+      <div class="tl-card done">
+        <div class="tl-card-head">
+          <span class="tl-card-title">Lead Data Model</span>
+          <span class="tl-badge done">✓ Done</span>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-icon done">✓</div> Lead source, funnel stage, conversion tracking<span class="tl-hrs">Complete</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order — Done -->
+    <div class="tl-row tl-anim">
+      <div class="tl-date"></div>
+      <div class="tl-dot done"></div>
+      <div class="tl-card done">
+        <div class="tl-card-head">
+          <span class="tl-card-title">Order Data Model</span>
+          <span class="tl-badge done">✓ Done</span>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-icon done">✓</div> Order lifecycle, status, revenue attribution<span class="tl-hrs">Complete</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dimension — Done -->
+    <div class="tl-row tl-anim">
+      <div class="tl-date"></div>
+      <div class="tl-dot done"></div>
+      <div class="tl-card done">
+        <div class="tl-card-head">
+          <span class="tl-card-title">Dimension Model</span>
+          <span class="tl-badge done">✓ Done</span>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-icon done">✓</div> Product, Channel, Region, Salesperson dimensions<span class="tl-hrs">Complete</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accounting — In Progress -->
+    <div class="tl-row tl-anim">
+      <div class="tl-date"></div>
+      <div class="tl-dot active"></div>
+      <div class="tl-card active">
+        <div class="tl-card-head">
+          <span class="tl-card-title">Accounting Data Model</span>
+          <span class="tl-badge active">→ In Progress</span>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-icon active">·</div> P&amp;L Model<span class="tl-hrs">8 hrs</span></div>
+          <div class="tl-task"><div class="tl-task-icon active">·</div> Payment Model</div>
+          <div class="tl-task"><div class="tl-task-icon active">·</div> Margin Calculation</div>
+          <div class="tl-task"><div class="tl-task-icon active">·</div> Profit Attribution</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PHASE 2: DATA HUB + DICT ── -->
+    <div class="tl-phase-label tl-anim">
+      <div class="tl-phase-label-text" style="color:var(--blue);">Phase 2 · Data Hub &amp; Dictionary</div>
+      <div class="tl-phase-label-line"></div>
+    </div>
+
+    <!-- Data Hub -->
+    <div class="tl-row tl-anim">
+      <div class="tl-date"></div>
+      <div class="tl-dot pending"></div>
+      <div class="tl-card pending">
+        <div class="tl-card-head">
+          <span class="tl-card-title">Data Hub — Power BI</span>
+          <span class="tl-badge pending">Upcoming</span>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> Import Data Model → Power BI<span class="tl-hrs">6 hrs</span></div>
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> Build Relations &amp; Star Schema</div>
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> Define All Measures (DAX)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Dict -->
+    <div class="tl-row tl-anim">
+      <div class="tl-date"></div>
+      <div class="tl-dot pending"></div>
+      <div class="tl-card pending">
+        <div class="tl-card-head">
+          <span class="tl-card-title">Data Dictionary</span>
+          <span class="tl-badge pending">Upcoming</span>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> Document All Fields — all models<span class="tl-hrs">4 hrs</span></div>
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> Document All Measures with formula &amp; logic</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PHASE 3: DASHBOARD ── -->
+    <div class="tl-phase-label tl-anim">
+      <div class="tl-phase-label-text" style="color:var(--green);">Phase 3 · Dashboard Report</div>
+      <div class="tl-phase-label-line"></div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="tl-row tl-anim">
+      <div class="tl-date"></div>
+      <div class="tl-dot pending"></div>
+      <div class="tl-card pending">
+        <div class="tl-card-head">
+          <span class="tl-card-title">Dashboard Report — 17 Pages + P&amp;L</span>
+          <span class="tl-badge pending">Upcoming</span>
+        </div>
+        <div class="tl-tasks">
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> Sales, Lead, Marketing, Target pages<span class="tl-hrs">24 hrs</span></div>
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> P&amp;L, Margin, Profit pages</div>
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> Leaderboard, Funnel, ROI views</div>
+          <div class="tl-task"><div class="tl-task-icon pending">·</div> QA &amp; Stakeholder Review</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Target -->
+    <div class="tl-row tl-anim" style="margin-top: 16px;">
+      <div class="tl-date"></div>
+      <div class="tl-dot" style="background:var(--gold); border-color:var(--gold); box-shadow:0 0 14px rgba(200,168,75,0.5); top:14px;"></div>
+      <div class="tl-card" style="border-color: rgba(200,168,75,0.35); background: rgba(200,168,75,0.05);">
+        <div style="position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold);"></div>
+        <div class="tl-card-head" style="margin-bottom:0;">
+          <span class="tl-card-title" style="color:var(--gold); font-size:15px;">🎯 &nbsp;Target Completion — 15 June 2026</span>
+          <span class="tl-badge" style="background:rgba(200,168,75,0.12); color:var(--gold);">Fundamental Done</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI Layer ── -->
+    <div style="margin-top: 48px;">
+      <div class="tl-phase-label tl-anim" style="padding-left:0;">
+        <div class="tl-phase-label-text" style="color: var(--graph);">Phase 4–6 · AI Layer</div>
+        <div class="tl-phase-label-line"></div>
+      </div>
+      <div class="tl-ai-block tl-anim">
+        <div class="tl-ai-icon">🤖</div>
+        <div class="tl-ai-text">
+          <strong>Timeline ยังไม่ประเมิน</strong>
+          รอให้ Phase 1–3 (Fundamental) เสร็จสมบูรณ์ก่อน — AI Layer ต้องมี Data Model ที่ถูกต้อง, Data Dictionary ที่ครบ และ Dashboard ที่ Validate แล้ว จึงจะ estimate timeline ของ Phase 4 (Business Advisor), Phase 5 (Insight Engine) และ Phase 6 (The Brain) ได้อย่างแม่นยำ
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// Animate timeline items on scroll
+const tlItems = document.querySelectorAll('.tl-anim');
+const tlObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const delay = Array.from(tlItems).indexOf(entry.target) * 60;
+      setTimeout(() => entry.target.classList.add('tl-visible'), delay);
+      tlObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+tlItems.forEach(el => tlObserver.observe(el));
+</script>
+
 <footer>
   <span>Data Intelligence Plan · Executive Brief 2026</span>
   <span>Confidential</span>
