@@ -2228,6 +2228,593 @@ footer {
 
 </section>
 
+<!-- ─── DATA FLOW ─── -->
+<style>
+#dataflow { padding: 100px 6vw; }
+
+.df-title-row { margin-bottom: 56px; }
+
+.df-flow-wrap {
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+.df-flow-wrap::-webkit-scrollbar { height: 4px; }
+.df-flow-wrap::-webkit-scrollbar-track { background: transparent; }
+.df-flow-wrap::-webkit-scrollbar-thumb { background: #2e3035; border-radius: 4px; }
+
+.df-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(210px, 1fr));
+  gap: 0;
+  min-width: 1060px;
+  position: relative;
+}
+
+/* arrow connectors */
+.df-flow > .df-col:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -18px;
+  top: 50px;
+  font-size: 22px;
+  color: #2e3035;
+  z-index: 2;
+}
+.df-col { position: relative; padding: 0 10px; }
+.df-col:first-child { padding-left: 0; }
+.df-col:last-child { padding-right: 0; }
+
+.df-col-head {
+  margin-bottom: 14px;
+}
+.df-col-num {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.df-col-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.df-col-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.df-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--muted2);
+  line-height: 1.65;
+}
+.df-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.df-card-title .df-icon {
+  width: 20px; height: 20px;
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.df-card ul { padding-left: 14px; margin: 0; }
+.df-card li { margin-bottom: 3px; }
+
+/* Source cards */
+.df-src-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.df-src-icon {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.df-src-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.df-src-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.df-src-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.badge-legacy { background: rgba(232,131,74,0.12); color: var(--accent); border: 1px solid rgba(232,131,74,0.2); }
+.badge-new    { background: rgba(76,175,130,0.12); color: var(--green); border: 1px solid rgba(76,175,130,0.2); }
+
+/* Medallion tiers */
+.medallion-wrap { display: flex; flex-direction: column; gap: 8px; }
+.medallion-tier {
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.tier-bronze {
+  background: rgba(205,127,50,0.08);
+  border: 1px solid rgba(205,127,50,0.25);
+}
+.tier-silver {
+  background: rgba(155,157,164,0.08);
+  border: 1px solid rgba(155,157,164,0.22);
+}
+.tier-gold {
+  background: rgba(200,168,75,0.1);
+  border: 1px solid rgba(200,168,75,0.3);
+}
+.tier-head {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tier-bronze .tier-head { color: #cd8c50; }
+.tier-silver .tier-head { color: #b0b2b8; }
+.tier-gold   .tier-head { color: var(--gold); }
+.tier-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-bronze .tier-dot { background: #cd8c50; }
+.tier-silver .tier-dot { background: #b0b2b8; }
+.tier-gold   .tier-dot { background: var(--gold); }
+.tier-body { color: var(--muted2); font-size: 11.5px; }
+.tier-body li { margin-bottom: 2px; }
+
+.df-fact-dim {
+  background: rgba(91,156,240,0.06);
+  border: 1px solid rgba(91,156,240,0.15);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted2);
+}
+.df-fact-dim-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+
+/* Power BI column */
+.pbi-card {
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.pbi-import {
+  background: rgba(240,168,122,0.07);
+  border: 1px solid rgba(240,168,122,0.18);
+}
+.pbi-refresh {
+  background: rgba(76,175,130,0.07);
+  border: 1px solid rgba(76,175,130,0.18);
+}
+.pbi-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.pbi-import .pbi-card-title { color: var(--accent2); }
+.pbi-refresh .pbi-card-title { color: var(--green); }
+.pbi-card ul { padding-left: 14px; margin: 0; color: var(--muted2); line-height: 1.65; }
+.pbi-card li { margin-bottom: 2px; }
+
+/* Analytics column */
+.analytics-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--muted2);
+}
+.analytics-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 7px;
+}
+.analytics-card ul { padding-left: 14px; margin: 0; line-height: 1.65; }
+.analytics-card li { margin-bottom: 2px; }
+.perf-check { color: var(--green); }
+
+/* Data Governance bar */
+.df-gov {
+  margin-top: 32px;
+  background: rgba(124,108,240,0.06);
+  border: 1px solid rgba(124,108,240,0.18);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.df-gov-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--graph);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.df-gov-title::before {
+  content: '';
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  background: rgba(124,108,240,0.25);
+  border: 1px solid rgba(124,108,240,0.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  flex-shrink: 0;
+}
+.df-gov-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+.df-gov-item {
+  font-size: 12px;
+}
+.df-gov-item-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted2);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.df-gov-icon {
+  font-size: 12px;
+}
+.df-gov-item ul {
+  padding-left: 14px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  list-style: none;
+  padding-left: 0;
+}
+.df-gov-item li::before { content: '· '; color: var(--graph); }
+
+/* Before / After */
+.df-ba-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-top: 28px;
+}
+@media (max-width: 768px) { .df-ba-wrap { grid-template-columns: 1fr; } }
+.df-ba-card {
+  border-radius: 12px;
+  padding: 18px 20px;
+  font-size: 12.5px;
+}
+.df-ba-before {
+  background: rgba(232,131,74,0.05);
+  border: 1px solid rgba(232,131,74,0.15);
+}
+.df-ba-after {
+  background: rgba(76,175,130,0.05);
+  border: 1px solid rgba(76,175,130,0.15);
+}
+.df-ba-result {
+  background: rgba(91,156,240,0.05);
+  border: 1px solid rgba(91,156,240,0.15);
+}
+.df-ba-head {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+}
+.df-ba-before .df-ba-head { color: var(--accent); border-bottom: 1px solid rgba(232,131,74,0.15); }
+.df-ba-after  .df-ba-head { color: var(--green);  border-bottom: 1px solid rgba(76,175,130,0.15); }
+.df-ba-result .df-ba-head { color: var(--blue);   border-bottom: 1px solid rgba(91,156,240,0.15); }
+.df-ba-card ul { padding-left: 0; margin: 0; list-style: none; color: var(--muted2); line-height: 1.7; }
+.df-ba-before li::before { content: '✕ '; color: rgba(232,131,74,0.6); }
+.df-ba-after  li::before { content: '✓ '; color: var(--green); }
+.df-ba-result li::before { content: '✓ '; color: var(--blue); }
+</style>
+
+<section id="dataflow">
+  <p class="section-label reveal">02.5 — Data Flow Architecture</p>
+  <h2 class="reveal" style="margin-bottom:12px;">Phase 1–3 · Data Flow<br><em>โดยละเอียด</em></h2>
+  <p class="reveal" style="color:var(--muted);font-size:14px;margin-bottom:48px;max-width:640px;">Medallion Architecture บน Supabase — ข้อมูลจากทุกแหล่งผ่านการ cleanse และ enrich ก่อนถึง Power BI เพื่อให้ Business Logic อยู่ใน Database ครั้งเดียว</p>
+
+  <div class="df-flow-wrap reveal">
+    <div class="df-flow">
+
+      <!-- COL 1: Sources -->
+      <div class="df-col">
+        <div class="df-col-head">
+          <div class="df-col-num">01</div>
+          <div class="df-col-title">แหล่งข้อมูล</div>
+          <div class="df-col-sub">Sources</div>
+        </div>
+        <div class="df-src-card">
+          <div class="df-src-icon" style="background:rgba(76,175,130,0.12);">📊</div>
+          <div>
+            <div class="df-src-name">Google Sheet</div>
+            <div class="df-src-desc">ข้อมูลการขาย · ข้อมูลลูกค้า</div>
+          </div>
+        </div>
+        <div class="df-src-card">
+          <div class="df-src-icon" style="background:rgba(232,131,74,0.12);">🔴</div>
+          <div>
+            <div class="df-src-name">Zoho CRM</div>
+            <div class="df-src-desc">Leads · Contacts · Accounts · Deals</div>
+            <div><span class="df-src-badge badge-legacy">ระบบเก่า · Legacy</span></div>
+          </div>
+        </div>
+        <div class="df-src-card">
+          <div class="df-src-icon" style="background:rgba(91,156,240,0.12);">🌐</div>
+          <div>
+            <div class="df-src-name">Web App</div>
+            <div class="df-src-desc">API · Database · ผู้ใช้งาน · ธุรกรรม · Events</div>
+            <div><span class="df-src-badge badge-new">ระบบใหม่ · New</span></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);padding:8px 0;line-height:1.6;">ระบบเก่าและระบบใหม่ มีโครงสร้างข้อมูลแตกต่างกัน — ต้องทำการ normalize ก่อนรวมใน Supabase</div>
+      </div>
+
+      <!-- COL 2: Ingestion -->
+      <div class="df-col">
+        <div class="df-col-head">
+          <div class="df-col-num">02</div>
+          <div class="df-col-title">Ingestion &amp; Migration</div>
+          <div class="df-col-sub">Supabase</div>
+        </div>
+        <div class="df-card">
+          <div class="df-card-title">
+            <div class="df-icon" style="background:rgba(124,108,240,0.15);">⚡</div>
+            Data Ingestion &amp; Migration
+          </div>
+          <ul>
+            <li>Zoho CRM (Legacy) Migration</li>
+            <li>Web App (New) Data Ingestion</li>
+            <li>Google Sheets Connector</li>
+            <li>Data Validation &amp; Profiling</li>
+            <li>Data Standardization</li>
+            <li>Structure Mapping (Legacy → Target)</li>
+            <li>Scheduled Sync (Cron Jobs)</li>
+          </ul>
+        </div>
+        <div class="df-card" style="background:rgba(91,156,240,0.05);border-color:rgba(91,156,240,0.15);">
+          <div class="df-card-title" style="color:var(--blue);">
+            <div class="df-icon" style="background:rgba(91,156,240,0.15);">🗄</div>
+            Staging Area (Raw)
+          </div>
+          <ul>
+            <li>เก็บข้อมูลดิบจากทุกแหล่ง</li>
+            <li>แยกตามแหล่งข้อมูล (Source)</li>
+            <li>เก็บข้อมูลเดิมและข้อมูลใหม่</li>
+            <li>เก็บประวัติการนำเข้า (Load ID, Timestamp)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- COL 3: Medallion -->
+      <div class="df-col">
+        <div class="df-col-head">
+          <div class="df-col-num">03</div>
+          <div class="df-col-title">Medallion Architecture</div>
+          <div class="df-col-sub">Supabase — Bronze / Silver / Gold</div>
+        </div>
+        <div class="medallion-wrap">
+          <div class="medallion-tier tier-bronze">
+            <div class="tier-head"><div class="tier-dot"></div>Bronze · Raw</div>
+            <ul class="tier-body">
+              <li>ข้อมูลดิบจากทุกแหล่ง</li>
+              <li>เก็บตามโครงสร้างต้นทาง</li>
+              <li>เพิ่มต่อแต่ไม่แก้ไข (Append-only)</li>
+              <li>เพิ่ม Metadata &amp; Audit Trail</li>
+              <li>Soft Delete Support</li>
+            </ul>
+          </div>
+          <div class="medallion-tier tier-silver">
+            <div class="tier-head"><div class="tier-dot"></div>Silver · Cleansed</div>
+            <ul class="tier-body">
+              <li>ทำความสะอาดข้อมูล</li>
+              <li>มาตรฐานข้อมูลเดียวกัน</li>
+              <li>รวมข้อมูลจากหลายแหล่ง</li>
+              <li>Deduplicate</li>
+              <li>Join ข้อมูลเบื้องต้น</li>
+              <li>Business Rules</li>
+            </ul>
+          </div>
+          <div class="medallion-tier tier-gold">
+            <div class="tier-head"><div class="tier-dot"></div>Gold · Enriched</div>
+            <ul class="tier-body">
+              <li>รวม/เสริมข้อมูลเชิงธุรกิจ</li>
+              <li>คำนวณ Metric / KPI</li>
+              <li>สรุปด้วย Business Logic</li>
+              <li>พร้อมสำหรับการวิเคราะห์</li>
+              <li>High Performance View</li>
+            </ul>
+          </div>
+        </div>
+        <div class="df-fact-dim">
+          <div class="df-fact-dim-title">Data Model : Fact + Dimension</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;color:var(--muted2);">
+            <div><div style="font-weight:600;color:var(--text);margin-bottom:4px;font-size:11px;">Fact Tables</div><div style="font-size:11px;">Sales/Orders<br>Leads<br>Marketing Spend</div></div>
+            <div><div style="font-weight:600;color:var(--text);margin-bottom:4px;font-size:11px;">Dimension Tables</div><div style="font-size:11px;">Product · Channel<br>Region · Salesperson<br>Time · Target</div></div>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:var(--muted);">จัดโครงสร้างในลักษณะ Star Schema เพื่อการวิเคราะห์</div>
+        </div>
+      </div>
+
+      <!-- COL 4: Power BI -->
+      <div class="df-col">
+        <div class="df-col-head">
+          <div class="df-col-num">04</div>
+          <div class="df-col-title">Power BI</div>
+          <div class="df-col-sub">Import Mode</div>
+        </div>
+        <div class="pbi-card pbi-import">
+          <div class="pbi-card-title">Import Mode</div>
+          <ul>
+            <li>นำเข้าข้อมูลจาก Supabase (Gold Layer)</li>
+            <li>โมเดล Star Schema (Fact + Dimension)</li>
+            <li>Relationships</li>
+            <li>DAX Measures &amp; KPIs</li>
+          </ul>
+        </div>
+        <div class="pbi-card pbi-refresh">
+          <div class="pbi-card-title">⟳ Incremental Refresh</div>
+          <ul>
+            <li>กำหนด Range (วันที่/เวลา)</li>
+            <li>Refresh เฉพาะข้อมูลใหม่ (Incremental)</li>
+            <li>เก็บ Historical Data ไว้ใน Cache</li>
+            <li>ลดเวลาในการ Refresh</li>
+            <li>ประสิทธิภาพสูง รองรับข้อมูลมาก</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- COL 5: Analytics -->
+      <div class="df-col">
+        <div class="df-col-head">
+          <div class="df-col-num">05</div>
+          <div class="df-col-title">Analytics &amp; Visualization</div>
+          <div class="df-col-sub">Power BI Reports &amp; Dashboards</div>
+        </div>
+        <div class="analytics-card">
+          <div class="analytics-card-title">📊 Reports &amp; Dashboards</div>
+          <ul>
+            <li>รายงานยอดขาย</li>
+            <li>วิเคราะห์ลูกค้า</li>
+            <li>Pipeline การขาย</li>
+            <li>Performance Dashboard</li>
+            <li>Ad-hoc Analysis</li>
+          </ul>
+        </div>
+        <div class="analytics-card" style="border-color:rgba(76,175,130,0.2);background:rgba(76,175,130,0.05);">
+          <div class="analytics-card-title" style="color:var(--green);">Performance Benefits</div>
+          <ul>
+            <li class="perf-check">โหลดข้อมูลเร็วขึ้น</li>
+            <li class="perf-check">Refresh เฉพาะข้อมูลใหม่</li>
+            <li class="perf-check">ประสิทธิภาพการใช้งานดีขึ้น</li>
+            <li class="perf-check">รองรับผู้ใช้งานจำนวนมาก</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /df-flow -->
+  </div><!-- /df-flow-wrap -->
+
+  <!-- DATA GOVERNANCE BAR -->
+  <div class="df-gov reveal">
+    <div class="df-gov-title">DATA GOVERNANCE (End-to-End) ครอบคลุมตั้งแต่ต้นทาง → Supabase → Power BI</div>
+    <div class="df-gov-grid">
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">🔒</span>การกำกับดูแลข้อมูล</div>
+        <ul><li>นิยามข้อมูล (Data Definition)</li><li>เจ้าของข้อมูล (Data Owner)</li><li>นโยบายข้อมูล (Data Policy)</li></ul>
+      </div>
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">✅</span>คุณภาพข้อมูล</div>
+        <ul><li>Validation Rules</li><li>Data Profiling</li><li>Exception Handling</li></ul>
+      </div>
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">🛡</span>ความปลอดภัย</div>
+        <ul><li>Row Level Security (RLS)</li><li>Column Level Security</li><li>Encryption (At Rest/Transit)</li></ul>
+      </div>
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">👤</span>การจัดการสิทธิ์</div>
+        <ul><li>Role-Based Access (RBAC)</li><li>Least Privilege Principle</li><li>Service Roles</li></ul>
+      </div>
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">📋</span>Logging &amp; Audit Trail</div>
+        <ul><li>Ingestion Logs</li><li>Data Change Logs</li><li>User Activity Logs</li></ul>
+      </div>
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">🔗</span>สายเส้นข้อมูล (Lineage)</div>
+        <ul><li>แผนผัง</li><li>กระบวนการเปลี่ยนแปลง</li><li>การใช้งานในปลายทาง</li></ul>
+      </div>
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">📈</span>Data Quality Monitoring</div>
+        <ul><li>Data Freshness</li><li>Completeness</li><li>Accuracy</li></ul>
+      </div>
+      <div class="df-gov-item">
+        <div class="df-gov-item-title"><span class="df-gov-icon">🔏</span>ความเป็นส่วนตัว (Privacy)</div>
+        <ul><li>PDPA Compliance</li><li>Data Masking</li><li>Consent Management</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEFORE / AFTER -->
+  <div class="df-ba-wrap reveal">
+    <div class="df-ba-card df-ba-before">
+      <div class="df-ba-head">ก่อนปรับปรุง (เดิม)</div>
+      <ul>
+        <li>ข้อมูลไม่เป็นมาตรฐาน</li>
+        <li>รวมข้อมูลหลายแหล่ง</li>
+        <li>Refresh ทั้งหมดทุกครั้ง</li>
+        <li>ใช้งานยาก</li>
+        <li>ประสิทธิภาพต่ำ</li>
+      </ul>
+    </div>
+    <div class="df-ba-card df-ba-after">
+      <div class="df-ba-head">หลังปรับปรุง (ปัจจุบัน)</div>
+      <ul>
+        <li>Google Sheet + Zoho + Web App</li>
+        <li>Supabase → Medallion Architecture</li>
+        <li>Data Model (Fact + Dimension)</li>
+        <li>Power BI Import Mode</li>
+        <li>+ Incremental Refresh</li>
+      </ul>
+    </div>
+    <div class="df-ba-card df-ba-result">
+      <div class="df-ba-head">ประโยชน์โดยรวม</div>
+      <ul>
+        <li>รวบรวมข้อมูลจากทุกระบบเป็นระบบเดียวกัน</li>
+        <li>โครงสร้างข้อมูลเป็นมาตรฐาน วิเคราะห์ง่าย</li>
+        <li>คุณภาพข้อมูลดีและเชื่อถือได้</li>
+        <li>Refresh เฉพาะข้อมูลใหม่ด้วย Incremental Refresh</li>
+        <li>ประสิทธิภาพสูง รองรับผู้ใช้งาน BI ได้</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
 <!-- ─── ROADMAP ─── -->
 <section id="roadmap">
   <p class="section-label reveal">03 — แผนงาน 6 ระยะ</p>
@@ -3004,6 +3591,572 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<!-- ─── AI CHATBOT WIDGET ─── -->
+<style>
+#chat-widget {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  font-family: 'Outfit', sans-serif;
+}
+
+#chat-toggle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(232,131,74,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-left: auto;
+}
+#chat-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 32px rgba(232,131,74,0.5);
+}
+#chat-toggle svg { transition: transform 0.3s; }
+#chat-toggle.open svg { transform: rotate(45deg); }
+
+#chat-panel {
+  position: absolute;
+  bottom: 68px;
+  right: 0;
+  width: 380px;
+  height: 540px;
+  background: #0f1012;
+  border: 1px solid #222428;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(232,131,74,0.08);
+  transform-origin: bottom right;
+  transform: scale(0.92) translateY(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+#chat-panel.open {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+#chat-header {
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid #222428;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.chat-header-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(232,131,74,0.6);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+#chat-header-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8e6e0;
+  letter-spacing: 0.02em;
+}
+#chat-header-sub {
+  font-size: 11px;
+  color: #6b6d74;
+  margin-left: auto;
+}
+
+#chat-api-bar {
+  padding: 10px 14px;
+  border-bottom: 1px solid #1c1e21;
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #0a0b0c;
+}
+#api-key-input {
+  flex: 1;
+  background: #161719;
+  border: 1px solid #2e3035;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-family: 'Outfit', monospace;
+  color: #9b9da4;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#api-key-input:focus { border-color: #e8834a66; color: #e8e6e0; }
+#api-key-input::placeholder { color: #444649; }
+#api-key-label {
+  font-size: 10px;
+  color: #444649;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+#chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+#chat-messages::-webkit-scrollbar { width: 4px; }
+#chat-messages::-webkit-scrollbar-track { background: transparent; }
+#chat-messages::-webkit-scrollbar-thumb { background: #2e3035; border-radius: 4px; }
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: msgIn 0.2s ease both;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.msg-bubble {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  max-width: 92%;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.msg.user { align-items: flex-end; }
+.msg.user .msg-bubble {
+  background: rgba(232,131,74,0.15);
+  border: 1px solid rgba(232,131,74,0.2);
+  color: #f0c8a0;
+  border-bottom-right-radius: 4px;
+}
+.msg.assistant { align-items: flex-start; }
+.msg.assistant .msg-bubble {
+  background: #161719;
+  border: 1px solid #222428;
+  color: #e8e6e0;
+  border-bottom-left-radius: 4px;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 14px;
+  background: #161719;
+  border: 1px solid #222428;
+  border-radius: 12px;
+  border-bottom-left-radius: 4px;
+  width: fit-content;
+}
+.typing-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #6b6d74;
+  animation: typing 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+.chat-welcome {
+  text-align: center;
+  padding: 20px 10px;
+}
+.chat-welcome-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.chat-welcome-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8e6e0;
+  margin-bottom: 6px;
+}
+.chat-welcome-sub {
+  font-size: 12px;
+  color: #6b6d74;
+  line-height: 1.5;
+}
+.chat-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+}
+.chat-suggest-btn {
+  background: #161719;
+  border: 1px solid #2e3035;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #9b9da4;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: 'Outfit', sans-serif;
+}
+.chat-suggest-btn:hover { border-color: #e8834a66; color: #e8e6e0; }
+
+#chat-input-area {
+  padding: 12px 14px;
+  border-top: 1px solid #222428;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  background: #0f1012;
+}
+#chat-input {
+  flex: 1;
+  background: #161719;
+  border: 1px solid #2e3035;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: 'Outfit', sans-serif;
+  color: #e8e6e0;
+  outline: none;
+  resize: none;
+  line-height: 1.5;
+  max-height: 100px;
+  transition: border-color 0.2s;
+}
+#chat-input:focus { border-color: #e8834a66; }
+#chat-input::placeholder { color: #444649; }
+
+#chat-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: flex-end;
+  transition: opacity 0.2s, transform 0.1s;
+}
+#chat-send:hover { opacity: 0.9; transform: scale(1.05); }
+#chat-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+@media (max-width: 440px) {
+  #chat-panel { width: calc(100vw - 40px); right: -14px; }
+}
+</style>
+
+<div id="chat-widget">
+  <div id="chat-panel">
+    <div id="chat-header">
+      <div class="chat-header-dot"></div>
+      <div>
+        <div id="chat-header-title">Data Intelligence AI</div>
+      </div>
+      <div id="chat-header-sub">Claude API</div>
+    </div>
+
+    <div id="chat-api-bar">
+      <span id="api-key-label">API Key</span>
+      <input id="api-key-input" type="password" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+    </div>
+
+    <div id="chat-messages">
+      <div class="chat-welcome">
+        <div class="chat-welcome-icon">🧠</div>
+        <div class="chat-welcome-title">Data Intelligence Assistant</div>
+        <div class="chat-welcome-sub">ถามคำถามเกี่ยวกับ Data Intelligence Plan 2026<br>ตอบเป็นภาษาไทย</div>
+        <div class="chat-suggestions">
+          <button class="chat-suggest-btn" onclick="sendSuggestion(this)">ทำ plan นี้แล้วองค์กรได้อะไรบ้าง?</button>
+          <button class="chat-suggest-btn" onclick="sendSuggestion(this)">ทำไมถึงต้องเริ่มทำโปรเจกต์นี้?</button>
+          <button class="chat-suggest-btn" onclick="sendSuggestion(this)">แต่ละ Phase คืออะไร สรุปให้หน่อย</button>
+          <button class="chat-suggest-btn" onclick="sendSuggestion(this)">แต่ละ Phase ให้ประโยชน์อะไรกับทีม?</button>
+          <button class="chat-suggest-btn" onclick="sendSuggestion(this)">Timeline ของโปรเจกต์นี้เป็นยังไง?</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="chat-input-area">
+      <textarea id="chat-input" placeholder="ถามคำถามเกี่ยวกับแผนงาน..." rows="1"></textarea>
+      <button id="chat-send" onclick="sendMessage()" title="ส่ง">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <button id="chat-toggle" onclick="toggleChat()" title="เปิด/ปิด AI Assistant">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `คุณคือ AI Assistant ที่เชี่ยวชาญเรื่อง Data Intelligence Plan 2026 ของ Knoware
+
+กฎการตอบ:
+- ตอบเป็นภาษาไทยเสมอ
+- ตอบสั้น กระชับ ไม่เกิน 5 บรรทัด
+- สรุปเป็น bullet points 2–4 ข้อเท่านั้น
+- ไม่ต้องอธิบายซ้ำคำถาม ไม่ต้องกล่าวทักทาย
+- ถ้าถามหลายเรื่องให้แยก bullet ชัดเจน
+- อ้างอิง Phase เฉพาะเมื่อจำเป็น
+
+=== เนื้อหาของ Data Intelligence Plan 2026 ===
+
+## ภาพรวม
+- ชื่อโปรเจกต์: Data Intelligence Plan
+- Scope Phase แรก: Sales & Revenue Model
+- Target Completion Phase 1–3: 15 มิถุนายน 2026
+- Source of Truth: Supabase (PostgreSQL)
+- Reporting Layer: Power BI
+- AI Layer: Phase 4–6 (ประเมิน timeline หลัง Phase 1–3 เสร็จ)
+
+## ปัญหาที่ต้องแก้ (Current State)
+- ข้อมูลกระจายหลายแหล่ง (Google Sheets, Zoho, Web App) → ไม่มี Single Source of Truth
+- Business Logic อยู่ใน Power Query → Transform ซ้ำทุกครั้ง ช้า แก้ยาก
+- Raw data ยัดเข้า Power BI โดยตรง → โหลดช้า ตัวเลขไม่น่าเชื่อถือ
+- ทีม Data เป็น Bottleneck → ทุก Team รอ Data Team
+
+## Data Flow ใหม่ (เป้าหมาย)
+Google Sheets/Zoho/Web App → Supabase DB (Business Logic + Star Schema) → Power BI (Visualize only) + AI Agents
+
+## Architecture หลัก
+| Layer | Tool | หน้าที่ |
+| Data Layer | Supabase (PostgreSQL) | Business Logic, Star Schema, Single Source of Truth |
+| Reporting Layer | Power BI | Visualization, Light DAX, Self-Service BI |
+| AI Layer | AI Agents Phase 4–6 | Q&A, Insight, Chatbot |
+
+หลักการสำคัญ: Business Logic → Database เท่านั้น — ห้ามทำ Logic ใน Power BI
+
+## Data Model Design
+Schema: Star Schema, Database: Supabase (PostgreSQL)
+Fact Tables: Sales/Orders, Leads, Marketing Spend
+Dimension Tables: Product, Channel, Region, Salesperson, Time, Target
+
+Domain Phase แรก: ยอดขาย, การตลาด, Leads & Funnel, Target Tracking, Marketing Spend & ROAS, Sales Performance, P&L Statement, Margin & Profit
+Domain อนาคต: Customer & CRM, Retention & Churn
+
+## แผนงาน 6 Phase
+
+### Phase 1 — Data Model ใน Database (Data Foundation)
+ย้าย Business Logic ออกจาก Power Query มาไว้ใน Supabase ออกแบบเป็น Star Schema
+สถานะปัจจุบัน:
+- Lead Data Model: ✅ Done
+- Order Data Model: ✅ Done
+- Dimension Model: ✅ Done
+- Accounting Data Model (P&L, Margin): 🔄 In Progress (~8 hrs)
+
+### Phase 2 — Dashboard Report 17 หน้า (Reporting Layer)
+สร้าง Dashboard 17 หน้าบน Power BI connect จาก Data Model โดยตรง
+Dashboard: Sales Performance, Lead Analysis, Marketing Performance, P&L Overview, Product Performance, Leaderboard, Transaction Detail + หน้า 17 สารบัญสูตร
+Performance: โหลดเร็วขึ้น 70–80% ด้วย In-Memory + Incremental Refresh
+Mockup: https://chawatakorn.github.io/KR-dashboard-sales-mockup/
+สถานะ: 🔜 Upcoming (24 hrs)
+
+### Phase 3 — Data Hub (Self-Service Analytics)
+สร้าง interface ให้ User เชื่อมต่อ Data Model แล้วลากข้อมูลเองได้เลย
+ผลลัพธ์: Sales, Finance, Management สร้าง Report เองได้โดยไม่ต้องรอทีม Data
+สิ่งสำคัญ: Data Dictionary ที่สร้างใน Phase 3 จะกลายเป็น Knowledge Base ที่ AI Phase 4 ใช้
+สถานะ: 🔜 Upcoming (10 hrs)
+Target Phase 1–3: 15 มิถุนายน 2026
+
+### Phase 4 — AI Business Advisor (24/7 Chatbot)
+ตอบคำถามเชิง Business: ความหมาย Field, Business Logic, สูตรคำนวณ, แนะนำใช้ Data Hub
+ไม่เขียน SQL ไม่คำนวณตัวเลข — อธิบาย Business เท่านั้น
+Timeline: ยังไม่ประเมิน รอ Phase 1–3 เสร็จ
+
+### Phase 5 — AI Insight Engine (Weekly Analyst)
+สร้าง Weekly Insight อัตโนมัติ Top 5 Issues/Opportunities per week
+Output format: What happened → Why it matters → Next step
+Rules: Data-driven, ไม่ Generic, ไม่ซ้ำ Insight เดิม
+Timeline: ยังไม่ประเมิน รอ Phase 1–3 เสร็จ
+
+### Phase 6 — The Brain (Full AI Chatbot)
+ถามด้วยภาษาคน → ได้ตัวเลขจริง + บริบท + Next Action ทันที
+Capabilities: Text-to-SQL (ภาษาไทย → SQL → Answer), Root Cause Analysis, Next Step Recommendation
+ตัวอย่าง: ถาม "ทำไมยอดขายเดือนนี้ต่ำกว่า target?" → ตอบ Lead จาก FB Ads ลด 32%, ช่องทาง LINE ดีที่สุด + Next Steps
+Timeline: ยังไม่ประเมิน รอ Phase 1–3 เสร็จ
+
+## Business Value
+- ตัดเวลาที่เสียไปกับข้อมูล: ไม่มี transform ซ้ำ ไม่รอ query ไม่เถียงตัวเลข
+- เห็น Revenue ครบทุกมิติ: Sales, Lead, Marketing ROI, P&L, Margin, Target, Leaderboard
+- ทุก Team พึ่งตัวเองได้: Sales/Marketing/Finance/Management สร้าง Report เองได้
+- ความรู้ไม่ไหลออกจากองค์กร: Business Logic และ Knowledge ถูก encode ไว้ใน AI
+- ถามเป็นภาษาคน ได้ Intelligence: ถาม → Root Cause → Next Step ทันที
+
+## Technical Stack
+Database: Supabase (PostgreSQL), Performance: Indexes + Materialized Views
+Reporting: Power BI, Schema: Star Schema
+AI: AI Agents Phase 4–6
+
+## Design Principles
+✅ Business Logic ทั้งหมดอยู่ใน Supabase
+✅ Pre-calculated fields ใน DB
+✅ Power BI = Consumption Layer เท่านั้น
+✅ AI = Interface Layer บนสุด
+❌ ห้าม Raw data dump โดยไม่มี Schema
+❌ ห้าม Logic ใน Power Query / Power BI
+❌ ห้าม AI Layer โดยไม่มี Foundation ที่ถูกต้อง
+
+=== สิ้นสุดเนื้อหา ===
+
+ถ้าถามนอกเหนือจากเนื้อหาข้างต้น ให้บอกว่า "ไม่มีข้อมูลในเอกสารนี้ แต่สามารถแนะนำได้ว่า..." และตอบตามความรู้ทั่วไปได้`;
+
+let messages = [];
+let isLoading = false;
+let panelOpen = false;
+
+function toggleChat() {
+  panelOpen = !panelOpen;
+  const panel = document.getElementById('chat-panel');
+  const btn = document.getElementById('chat-toggle');
+  panel.classList.toggle('open', panelOpen);
+  btn.classList.toggle('open', panelOpen);
+}
+
+function sendSuggestion(btn) {
+  const text = btn.textContent.trim();
+  document.getElementById('chat-input').value = text;
+  sendMessage();
+}
+
+async function sendMessage() {
+  if (isLoading) return;
+  const input = document.getElementById('chat-input');
+  const apiKeyInput = document.getElementById('api-key-input');
+  const text = input.value.trim();
+  const apiKey = apiKeyInput.value.trim();
+
+  if (!text) return;
+  if (!apiKey) {
+    apiKeyInput.style.borderColor = '#e8834a';
+    apiKeyInput.placeholder = 'กรุณาใส่ API Key ก่อน...';
+    apiKeyInput.focus();
+    setTimeout(() => {
+      apiKeyInput.style.borderColor = '';
+      apiKeyInput.placeholder = 'sk-ant-...';
+    }, 2000);
+    return;
+  }
+
+  // Hide welcome, add user message
+  const messagesEl = document.getElementById('chat-messages');
+  const welcome = messagesEl.querySelector('.chat-welcome');
+  if (welcome) welcome.remove();
+
+  appendMessage('user', text);
+  messages.push({ role: 'user', content: text });
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'msg assistant';
+  typing.id = 'typing-indicator';
+  typing.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  messagesEl.appendChild(typing);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  isLoading = true;
+  document.getElementById('chat-send').disabled = true;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
+        messages: messages
+      })
+    });
+
+    const data = await res.json();
+    typing.remove();
+
+    if (!res.ok) {
+      const errMsg = data?.error?.message || `Error ${res.status}`;
+      appendMessage('assistant', `⚠️ เกิดข้อผิดพลาด: ${errMsg}`);
+    } else {
+      const reply = data.content[0].text;
+      appendMessage('assistant', reply);
+      messages.push({ role: 'assistant', content: reply });
+      // Keep last 20 messages to avoid token overflow
+      if (messages.length > 20) messages = messages.slice(-20);
+    }
+  } catch (err) {
+    typing.remove();
+    appendMessage('assistant', `⚠️ ไม่สามารถเชื่อมต่อได้: ${err.message}`);
+  }
+
+  isLoading = false;
+  document.getElementById('chat-send').disabled = false;
+  document.getElementById('chat-messages').scrollTop = 99999;
+}
+
+function appendMessage(role, text) {
+  const el = document.createElement('div');
+  el.className = `msg ${role}`;
+  el.innerHTML = `<div class="msg-bubble">${escapeHtml(text)}</div>`;
+  document.getElementById('chat-messages').appendChild(el);
+  document.getElementById('chat-messages').scrollTop = 99999;
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '<br>');
+}
+
+// Enter to send (Shift+Enter for newline)
+document.getElementById('chat-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Auto-resize textarea
+document.getElementById('chat-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
 </script>
 </body>
 </html>
