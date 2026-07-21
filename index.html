@@ -256,6 +256,45 @@ h3.sub .en{ font-family:'Outfit',sans-serif; font-size:14px; color:var(--muted);
 .reveal.visible{ opacity:1; transform:translateY(0); }
 
 footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; color:var(--muted); font-size:12px; letter-spacing:0.05em; }
+
+/* ===== 04 EXECUTIVE SUMMARY (es-) ===== */
+.es-stats{ display:flex; flex-wrap:wrap; border:1px solid var(--border2); border-radius:12px; overflow:hidden; background:var(--surface); margin:28px 0 8px; }
+.es-stat{ flex:1 1 190px; padding:20px 24px; border-right:1px solid var(--border2); }
+.es-stat:last-child{ border-right:none; }
+.es-stat-val{ font-family:'Instrument Serif',serif; font-size:26px; display:block; margin-bottom:4px; color:var(--text); }
+.es-stat-val.a{ color:var(--accent); } .es-stat-val.g{ color:var(--green); } .es-stat-val.b{ color:var(--blue); }
+.es-stat-label{ font-size:11px; letter-spacing:0.09em; text-transform:uppercase; color:var(--muted); line-height:1.5; }
+
+.es-tbl-wrap{ overflow-x:auto; border:1px solid var(--border2); border-radius:12px; background:var(--surface); margin:20px 0; }
+.es-tbl-wrap::-webkit-scrollbar{ height:4px; }
+.es-tbl-wrap::-webkit-scrollbar-thumb{ background:#2e3035; border-radius:4px; }
+table.es-tbl{ width:100%; border-collapse:collapse; min-width:660px; font-size:13px; }
+table.es-tbl thead th{ text-align:left; font-size:10.5px; letter-spacing:0.11em; text-transform:uppercase; color:var(--muted);
+  font-weight:600; padding:13px 16px; border-bottom:1px solid var(--border2); background:var(--surface2); white-space:nowrap; }
+table.es-tbl td{ padding:12px 16px; border-bottom:1px solid var(--border); color:var(--muted2); vertical-align:top; line-height:1.7; }
+table.es-tbl tbody tr:last-child td{ border-bottom:none; }
+table.es-tbl td.item{ color:var(--text); font-weight:500; }
+table.es-tbl td.hrs{ color:var(--text); white-space:nowrap; font-variant-numeric:tabular-nums; }
+table.es-tbl tr.tot td{ background:var(--surface2); color:var(--text); font-weight:600; border-top:1px solid var(--border2); }
+table.es-tbl tr.tot td.hrs{ color:var(--accent); }
+table.es-tbl .neg{ color:var(--red); font-weight:600; }
+.es-note{ font-size:11.5px; color:var(--muted); display:block; margin-top:3px; line-height:1.6; font-weight:400; }
+
+.es-b{ display:inline-block; padding:2px 9px; border-radius:20px; font-size:10.5px; font-weight:600; white-space:nowrap; }
+.es-b.done{ background:rgba(76,175,130,0.13); color:var(--green); border:1px solid rgba(76,175,130,0.3); }
+.es-b.todo{ background:rgba(232,131,74,0.11); color:var(--accent2); border:1px solid rgba(232,131,74,0.28); }
+.es-b.tech{ background:rgba(91,156,240,0.11); color:var(--blue); border:1px solid rgba(91,156,240,0.28); }
+.es-b.tbd{ background:rgba(107,109,116,0.13); color:var(--muted2); border:1px solid var(--border2); }
+
+.es-blocks{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:24px 0; }
+.es-block{ background:var(--surface); padding:18px 16px; }
+.es-block-n{ font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.es-block-t{ font-size:13px; color:var(--text); font-weight:500; margin-bottom:9px; line-height:1.45; }
+
+.callout.risk{ border-color:rgba(224,92,92,0.3); background:rgba(224,92,92,0.05); }
+.callout.risk h4{ color:var(--red); }
+.callout ul{ margin:2px 0 0; padding-left:18px; }
+.callout li{ font-size:13.5px; color:var(--muted2); line-height:1.85; }
 </style>
 </head>
 <body>
@@ -265,7 +304,7 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
   <ul class="nav-links">
     <li><a href="#problems">ปัญหา</a></li>
     <li><a href="#old">Flow เก่า</a></li>
-    <li><a href="#new">Flow ใหม่ · 6 Phase</a></li>
+    <li><a href="#new">Flow ใหม่ · 7 Phase</a></li>
     <li><a href="#now">สถานะ</a></li>
   </ul>
 </nav>
@@ -279,7 +318,7 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
   <div class="hero-project-tagline">เปลี่ยนข้อมูลที่กระจัดกระจาย ให้เป็นแหล่งความจริงเดียวที่ทั้งองค์กรใช้ร่วมกัน</div>
   <p class="hero-desc">พูดง่าย ๆ: เลิกให้ Power BI ทำทุกอย่าง แล้วย้าย business logic ไปไว้ใน database (Supabase) ที่เดียว จัดข้อมูลเป็น 3 ชั้น Bronze / Silver / Gold (Medallion) ให้สะอาดและพร้อมใช้ก่อน แล้วค่อยต่อยอด AI ทีหลัง</p>
   <div class="hero-stats">
-    <div class="stat"><span class="stat-val">6</span><span class="stat-label">Phases</span></div>
+    <div class="stat"><span class="stat-val">7</span><span class="stat-label">Phases</span></div>
     <div class="stat"><span class="stat-val">3</span><span class="stat-label">Medallion Layers</span></div>
     <div class="stat"><span class="stat-val">1</span><span class="stat-label">Source of Truth</span></div>
     <div class="stat"><span class="stat-val">Day-1</span><span class="stat-label">Daily Sync</span></div>
@@ -328,9 +367,9 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
 
 <!-- 03 NEW FLOW (full plan, all 6 phases) -->
 <section id="new">
-  <p class="section-label reveal">03 — The New Data Flow · ครบทั้ง 6 Phase</p>
+  <p class="section-label reveal">03 — The New Data Flow · ครบทั้ง 7 Phase</p>
   <h2 class="reveal">วิธีใหม่<em> = ทั้งแผนในภาพเดียว</em></h2>
-  <p class="lead reveal">ดูภาพนี้ภาพเดียวก็เห็นแผนครบทั้ง 6 ระยะ และเห็นเส้นแบ่งชัด ๆ ระหว่าง 2 กลุ่ม: <b style="color:var(--accent2)">Foundation (Phase 1–2)</b> = ทำให้ข้อมูล "ถูกต้อง + เข้าถึงได้" — จัดข้อมูลเป็น 3 ชั้น Bronze/Silver/Gold (Phase 1) แล้วเปิดให้คนเข้าถึงผ่าน Data Hub (Phase 2) · จากนั้น <b style="color:var(--graph)">AI Layer (Phase 3–6)</b> = ทุกชั้นที่ AI เข้ามา "ผลิตและตอบ" — Dashboard ที่ AI สร้าง (3), สรุป insight (4), ทำนาย (5), ถามตอบ (6) · ทุกอย่างต้องผ่าน Supabase ที่เป็นแหล่งความจริงเดียว (single source of truth) และต้องทำ Foundation ให้นิ่งก่อนเสมอ</p>
+  <p class="lead reveal">ดูภาพนี้ภาพเดียวก็เห็นแผนครบทั้ง 7 ระยะ และเห็นเส้นแบ่งชัด ๆ ระหว่าง 2 กลุ่ม: <b style="color:var(--accent2)">Foundation (Phase 1–2)</b> = ทำให้ข้อมูล "ถูกต้อง + เข้าถึงได้" — จัดข้อมูลเป็น 3 ชั้น Bronze/Silver/Gold (Phase 1) แล้วเปิดให้คนเข้าถึงผ่าน Data Hub (Phase 2) · จากนั้น <b style="color:var(--graph)">AI Layer (Phase 3–7)</b> = ทุกชั้นที่ AI เข้ามา "ผลิตและตอบ" — Dashboard ที่ AI สร้าง (3), สรุป insight (4), ทำนาย (5), รวบรวมความรู้ธุรกิจให้ AI อ่านได้ (6), ถามตอบ (7) · ทุกอย่างต้องผ่าน Supabase ที่เป็นแหล่งความจริงเดียว (single source of truth) และต้องทำ Foundation ให้นิ่งก่อนเสมอ</p>
 
   <div class="why-ai-box reveal">
     <span class="icon">🧠</span>
@@ -371,10 +410,11 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
         <div class="cons-card cons-dash" style="border-color:rgba(124,108,240,0.3);"><div class="cons-src" style="color:var(--graph);">Phase 3 · AI Layer · จาก Gold</div><div class="cons-card-title" style="color:var(--graph);">Apps Script · Dashboard (AI-built)</div><ul><li>AI สร้างให้จาก template (ไม่ทำมือ)</li><li>code.gs + index.html เปิดเป็นลิงก์</li><li>read-only role + Google Workspace login</li><li>เป็นที่แสดง AI insight (Phase 4)</li></ul></div>
       </div>
       <div class="df-col">
-        <div class="df-col-head"><div class="df-col-num">05</div><span class="df-phase ai">Phase 4 · 5 · 6</span><div class="df-col-title">ชั้น AI</div><div class="df-col-sub">สรุป → ทำนาย → ถามตอบ</div></div>
+        <div class="df-col-head"><div class="df-col-num">05</div><span class="df-phase ai">Phase 4 · 5 · 6 · 7</span><div class="df-col-title">ชั้น AI</div><div class="df-col-sub">สรุป → ทำนาย → รวมความรู้ → ถามตอบ</div></div>
         <div class="ai-card"><div class="ai-card-title">Phase 4 · Analysis Engine</div><ul><li>ทำงานทุกสัปดาห์ (ไม่ใช่ chatbot)</li><li>อ่าน Gold (+ Silver ตอนหาสาเหตุ)</li><li>เขียน insight กลับเข้า Supabase</li><li>โผล่ในหน้า Dashboard</li></ul></div>
         <div class="ai-card future"><div class="ai-card-title">Phase 5 · ML</div><ul><li>ทำนายล่วงหน้า (churn, lead scoring, forecast)</li><li>ใช้ fact/dim เดิม — ทำทีหลัง</li></ul></div>
-        <div class="ai-card future"><div class="ai-card-title">Phase 6 · Chatbot</div><ul><li>ถามเป็นภาษาคน → ได้ตัวเลข + บริบท</li><li>ภาพสุดท้าย — ทำทีหลัง</li></ul></div>
+        <div class="ai-card future"><div class="ai-card-title">Phase 6 · Knowledge Base</div><ul><li>business logic + นิยาม Silver/Gold</li><li>ให้คนใหม่และ AI อ่านต่อได้</li></ul></div>
+        <div class="ai-card future"><div class="ai-card-title">Phase 7 · Chatbot</div><ul><li>ถามเป็นภาษาคน → ได้ตัวเลข + บริบท</li><li>ภาพสุดท้าย — ทำทีหลัง</li></ul></div>
       </div>
     </div>
   </div>
@@ -387,7 +427,7 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
       <div class="phase-right">
         <div class="phase-title">Data Model · 3 ชั้น (แหล่งความจริงเดียว)</div>
         <p class="phase-desc">ย้าย business logic ออกจาก Power BI มาไว้ใน Supabase แล้วจัดเป็น 3 ชั้น (Medallion): <b style="color:var(--bronze)">Bronze</b> เก็บข้อมูลดิบจากทุก source ตามต้นทาง (อยู่คนละ project กับ production), <b style="color:var(--silver)">Silver</b> ใส่ business rule + ตรวจความถูกต้อง แล้วสร้างตาราง dimension / fact / mapping, <b style="color:var(--gold)">Gold</b> คำนวณ KPI/measure ไว้ให้พร้อมหยิบใช้ — ทุก source มารวมที่จุดเดียว ผ่านเงื่อนไขทางธุรกิจที่ตรวจแล้ว</p>
-        <div class="phase-why"><strong>ทำไมต้องมาก่อน:</strong> ถ้าชั้นข้อมูลผิด ทุกอย่างที่ต่อยอดขึ้นไปก็ผิดหมด — dashboard ผิด, Data Hub ผิด, AI ก็ตอบผิด นี่คือฐานของอีก 5 ระยะ</div>
+        <div class="phase-why"><strong>ทำไมต้องมาก่อน:</strong> ถ้าชั้นข้อมูลผิด ทุกอย่างที่ต่อยอดขึ้นไปก็ผิดหมด — dashboard ผิด, Data Hub ผิด, AI ก็ตอบผิด นี่คือฐานของอีก 6 ระยะ</div>
         <div class="tags"><span class="tag accent">Medallion</span><span class="tag">Supabase PostgreSQL</span><span class="tag">Bronze / Silver / Gold</span><span class="tag">Single Source of Truth</span></div>
       </div>
     </div>
@@ -409,7 +449,7 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
     </div>
   </div>
 
-  <div class="phase-divider reveal"><div class="phase-divider-line"></div><div class="phase-divider-label ai-layer">Phase 3–6 · ชั้น AI (AI Layer)</div><div class="phase-divider-line"></div></div>
+  <div class="phase-divider reveal"><div class="phase-divider-line"></div><div class="phase-divider-label ai-layer">Phase 3–7 · ชั้น AI (AI Layer)</div><div class="phase-divider-line"></div></div>
   <div class="phase-list reveal">
     <div class="phase-item ai">
       <div class="phase-left"><div class="phase-num">3</div><div class="phase-tag">AI · AI-built Reporting</div></div>
@@ -440,7 +480,16 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
       </div>
     </div>
     <div class="phase-item ai">
-      <div class="phase-left"><div class="phase-num">6</div><div class="phase-tag">AI · Conversational</div></div>
+      <div class="phase-left"><div class="phase-num">6</div><div class="phase-tag">AI · Knowledge</div></div>
+      <div class="phase-right">
+        <div class="phase-title">Knowledge Base</div>
+        <p class="phase-desc">รวบรวม <b style="color:var(--text)">business logic และนิยามของ database (ชั้น Silver &amp; Gold)</b> ให้เป็นเอกสารชุดเดียว — ตารางไหนหมายถึงอะไร, KPI แต่ละตัวคำนวณจากอะไร, กฎทางธุรกิจข้อไหนถูกใส่ไว้ตรงจุดใด · เป็นการย้ายความรู้ที่ตอนนี้อยู่ในหัวคนออกมาเป็นของที่องค์กรเก็บไว้ได้ และเป็น <b style="color:var(--text)">input ที่ AI Chatbot (Phase 7) ต้องใช้</b> เพื่อจะตอบด้วยนิยามที่ถูกต้อง ไม่ใช่การเดา</p>
+        <div class="phase-why"><strong>ทำไมสำคัญกว่าที่คิด:</strong> นี่คือคำตอบโดยตรงของปัญหาข้อ 4 (คนใหม่มารับงานต่อยาก) — ถ้าไม่มีชั้นนี้ ความรู้ทั้งหมดจะยังผูกอยู่กับตัวคน และทุกครั้งที่เปลี่ยนคน องค์กรต้องจ่ายค่าเรียนรู้ใหม่ทั้งหมด · อีกทั้งเป็นเงื่อนไขบังคับก่อนทำ Chatbot เพราะ AI ที่ไม่มีนิยามธุรกิจจะตอบมั่นใจแต่ผิด</div>
+        <div class="tags"><span class="tag graph">Knowledge Base</span><span class="tag">Business Logic</span><span class="tag">Silver &amp; Gold Definition</span><span class="tag">ฐานของ Chatbot</span></div>
+      </div>
+    </div>
+    <div class="phase-item ai">
+      <div class="phase-left"><div class="phase-num">7</div><div class="phase-tag">AI · Conversational</div></div>
       <div class="phase-right">
         <div class="phase-title">AI Chatbot · The Brain</div>
         <p class="phase-desc">ภาพสุดท้าย — ถามเป็นภาษาคน แล้วได้ตัวเลขจริง + บริบท + สิ่งที่ควรทำต่อทันที โดยไม่ต้องเปิด dashboard เอง รวมร่างจากทุกอย่างที่ทำมาในระยะก่อนหน้า</p>
@@ -470,19 +519,32 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
   </div>
 </section>
 
-<!-- 04 CURRENT STATE (fact-based) -->
+<!-- 04 EXECUTIVE SUMMARY · Roadmap & Effort Estimate -->
 <section id="now">
-  <p class="section-label reveal">04 — Where We Are Now</p>
-  <h2 class="reveal">สถานะตอนนี้<em> — ทำได้ถึงไหน ด้วยกำลังคนเท่าไหร่</em></h2>
-  <p class="lead reveal">ส่วนนี้เป็นข้อเท็จจริงล้วน ๆ ว่าด้วยกำลังคนปัจจุบัน ระบบทำไปถึงไหน และอะไรที่ยังทำไม่ได้</p>
+  <p class="section-label reveal">04 — Roadmap &amp; Effort Estimate</p>
+  <h2 class="reveal">สถานะตอนนี้ และงานที่เหลือ<em> — คิดเป็นชั่วโมงเท่าไหร่</em></h2>
+  <p class="lead reveal">
+    ส่วนนี้เป็นข้อเท็จจริงล้วน ๆ ว่าระบบทำไปถึงไหน เหลืออะไร และแต่ละส่วนที่เหลือใช้เวลากี่ชั่วโมง
+    ครอบคลุม 3 ขอบเขตงาน — Sales (Lead · Order · Marketing), ทดลองเรียน, และหลังบ้าน (Student &amp; CRM)
+  </p>
 
-  <div class="callout fact reveal"><span class="ic">👤</span><div><h4>กำลังคนปัจจุบัน</h4><p>ทีม data ตอนนี้คือ <strong>part-time 1 คน</strong> (เดิมเป็น full-time) — ทุกข้อด้านล่างคือผลที่ตามมาจากกำลังคนเท่านี้โดยตรง</p></div></div>
+  <div class="es-stats reveal">
+    <div class="es-stat"><span class="es-stat-val g">4 / 21</span><span class="es-stat-label">ส่วนงานที่เสร็จแล้ว</span></div>
+    <div class="es-stat"><span class="es-stat-val a">145–258 ชม.</span><span class="es-stat-label">งานที่เหลือ (ประเมินได้)</span></div>
+    <div class="es-stat"><span class="es-stat-val b">1 คน · Part-time</span><span class="es-stat-label">กำลังคนปัจจุบัน</span></div>
+    <div class="es-stat"><span class="es-stat-val">6 ส่วน</span><span class="es-stat-label">ที่ยังประเมินไม่ได้ / เป็นของทีม Tech</span></div>
+  </div>
 
-  <div class="fact-grid reveal">
-    <div class="fact-card"><div class="fc-label">ขอบเขตที่ทำอยู่</div><div class="fc-val">เส้นทาง <b>Sales</b> (Lead · Order · Sales · Marketing/Ads) — เพราะโครงสร้างข้อมูลกลุ่มนี้นิ่งและรู้ครบแล้ว ทำด้วยกำลัง part-time ได้</div></div>
-    <div class="fact-card"><div class="fc-label">ยังไม่ได้แตะ</div><div class="fc-val"><b>CRM</b> และ <b>Learning back-office</b> — ระบบสร้างใหม่ทำให้ structure เปลี่ยนเกือบทั้งหมด ต้องใช้เวลา learn สูง ซึ่งเกินเวลาที่ part-time มี</div></div>
-    <div class="fact-card"><div class="fc-label">pipeline ทำถึงไหน</div><div class="fc-val">ทำถึงชั้น <b>Gold</b> แล้ว — ส่วน Data Hub / Dashboard / AI ยังเป็นแค่ <b>prototype</b> ยังไม่ขึ้นใช้จริง</div></div>
-    <div class="fact-card"><div class="fc-label">โครงสร้างที่ยังขาด</div><div class="fc-val">ยัง <b>ไม่มีชั้น Bronze</b> และยังใช้ Supabase <b>project เดียวกับ production</b> ในการทำ Silver/Gold</div></div>
+  <!-- สถานะรายชั้น -->
+  <h3 class="sub reveal">สถานะรายชั้น <span class="en">— 7 building blocks × 3 scopes</span></h3>
+  <div class="es-blocks reveal">
+    <div class="es-block"><div class="es-block-n">01</div><div class="es-block-t">Data Warehouse<br>Bronze / Silver / Gold</div><span class="es-b done">Sales เสร็จ</span></div>
+    <div class="es-block"><div class="es-block-n">02</div><div class="es-block-t">Data Hub<br>Power BI self-service</div><span class="es-b done">Sales เสร็จ</span></div>
+    <div class="es-block"><div class="es-block-n">03</div><div class="es-block-t">Dashboard &amp; Report<br>Power BI / HTML</div><span class="es-b done">Sales เสร็จ</span></div>
+    <div class="es-block"><div class="es-block-n">04</div><div class="es-block-t">AI Analysis Engine<br>insight รายสัปดาห์</div><span class="es-b todo">ยังไม่เริ่ม</span></div>
+    <div class="es-block"><div class="es-block-n">05</div><div class="es-block-t">ML Layer<br>churn / lead scoring</div><span class="es-b tbd">รอ scope</span></div>
+    <div class="es-block"><div class="es-block-n">06</div><div class="es-block-t">Knowledge Base<br>business logic + data dict</div><span class="es-b todo">ยังไม่เริ่ม</span></div>
+    <div class="es-block"><div class="es-block-n">07</div><div class="es-block-t">AI Chatbot<br>ถาม-ตอบภาษาคน</div><span class="es-b tech">ให้ Tech ทำ</span></div>
   </div>
 
   <h3 class="sub reveal">สถานะปัจจุบัน vs เป้าหมาย <span class="en">— current state vs target</span></h3>
@@ -495,18 +557,177 @@ footer{ padding:40px 8vw; border-top:1px solid var(--border); display:flex; just
     <tr><td>ความคืบหน้า pipeline</td><td class="target">Bronze → Silver → Gold → ใช้งาน → AI</td><td class="today"><b>ถึง Gold</b> — ที่เหลือยังเป็น prototype</td></tr>
   </table>
 
-  <div class="callout fact reveal"><span class="ic">📌</span><div><h4>ผลที่ตามมา (ข้อเท็จจริง)</h4><p>เพราะ Silver/Gold ถูกสร้างบน production project เดียวกัน → งานประมวลผล (transform) จึงรันอยู่บน database เดียวกับที่ลูกค้าใช้จริง และยัง <strong>ไม่มีสำเนาข้อมูลดิบ (Bronze)</strong> แยกไว้เป็น safety</p></div></div>
+  <!-- SCOPE A -->
+  <h3 class="sub reveal">ขอบเขต A · Lead &amp; Order &amp; Marketing <span class="en">— ขอบเขตที่ทำไปแล้วมากที่สุด</span></h3>
+  <p class="lead reveal" style="margin-bottom:0;">pipeline เดินถึงชั้น Gold แล้ว และมี Data Hub กับ Dashboard ใช้งานได้แล้ว ที่เหลือคือชั้น AI และเอกสารกำกับข้อมูล</p>
+  <div class="es-tbl-wrap reveal">
+  <table class="es-tbl">
+    <thead><tr><th>ส่วนงาน</th><th>สถานะ</th><th>ชั่วโมงที่เหลือ</th><th>หมายเหตุ</th></tr></thead>
+    <tbody>
+      <tr><td class="item">1. Data Warehouse — Bronze</td><td><span class="es-b tech">ทีม Tech</span></td><td class="hrs">—</td><td>ทีม Tech เป็นผู้จัดทำ โดยคง schema เดิมทั้งหมด</td></tr>
+      <tr><td class="item">1. Data Warehouse — Silver</td><td><span class="es-b done">เสร็จ</span></td><td class="hrs">2–4</td><td>เวลาที่ใส่ไว้คือ clone process ไปต่อกับ Supabase account ใหม่เมื่อ Bronze พร้อม<span class="es-note">รวม Silver + Gold ในตัวเลขเดียว เพราะ schema เดิมไม่เปลี่ยน</span></td></tr>
+      <tr><td class="item">1. Data Warehouse — Gold</td><td><span class="es-b done">เสร็จ</span></td><td class="hrs">↑ รวมด้านบน</td><td></td></tr>
+      <tr><td class="item">2. Data Hub (Power BI)</td><td><span class="es-b done">เสร็จ</span></td><td class="hrs">—</td><td>ถ้าจะใช้จริงต้องซื้อ Power BI license 2 account (ดูหัวข้อ "สิ่งที่ยังไม่รวมในตัวเลข")</td></tr>
+      <tr><td class="item">3. Dashboard &amp; Report</td><td><span class="es-b done">เสร็จ</span></td><td class="hrs">—</td><td>Power BI / HTML web</td></tr>
+      <tr><td class="item">4. AI Analysis Engine</td><td><span class="es-b todo">ยังไม่เริ่ม</span></td><td class="hrs">4–8<br>หรือ 16–24</td><td><b>4–8 ชม.</b> = แบบสั่งรันเอง (manual agent) + เสียบเข้า Dashboard<br><b>16–24 ชม.</b> = แบบทำงานอัตโนมัติเต็มรูปแบบ<span class="es-note">แนะนำเริ่มที่ manual ก่อนเพื่อพิสูจน์ว่า insight ใช้ได้จริง แล้วค่อยลงทุน automate</span></td></tr>
+      <tr><td class="item">5. ML Layer</td><td><span class="es-b tbd">รอ scope</span></td><td class="hrs">ประเมินไม่ได้</td><td>ต้องตกลงก่อนว่ามีโจทย์ธุรกิจข้อไหนที่คุ้มกับการทำ model</td></tr>
+      <tr><td class="item">6. Knowledge Base</td><td><span class="es-b todo">ยังไม่เริ่ม</span></td><td class="hrs">8–16</td><td>เอกสาร business logic + โครงสร้าง Silver &amp; Gold — เป็นของที่ AI Chatbot ต้องใช้ต่อ</td></tr>
+      <tr><td class="item">7. AI Chatbot</td><td><span class="es-b tech">เสนอให้ Tech ทำ</span></td><td class="hrs">ยังไม่ประเมิน</td><td>มี how-to อยู่แล้ว รอแค่ Knowledge Base เสร็จก็ต่อยอดได้ทันที</td></tr>
+      <tr class="tot"><td>รวมขอบเขต A</td><td></td><td class="hrs">14–28 ชม.<br>(หรือ 26–44)</td><td>ตัวเลขบรรทัดล่าง = กรณีเลือกทำ AI Engine แบบอัตโนมัติเต็มรูปแบบ</td></tr>
+    </tbody>
+  </table>
+  </div>
 
-  <div class="phase-divider reveal"><div class="phase-divider-line"></div><div class="phase-divider-label ai-layer">งานที่เหลือ &amp; กำลังคนที่ต้องใช้</div><div class="phase-divider-line"></div></div>
-  <div class="callout ask reveal"><span class="ic">🧩</span><div><h4>งานที่เหลือเพื่อให้ครบทั้ง loop</h4>
+  <!-- SCOPE B -->
+  <h3 class="sub reveal">ขอบเขต B · ทดลองเรียน <span class="en">— ถูกที่สุด เพราะ clone ของ A ได้</span></h3>
+  <p class="lead reveal" style="margin-bottom:0;">ยังไม่ได้เริ่มทำเลย แต่ต้นทุนต่ำ เพราะเสียบเข้าไปใน Data Hub และ Dashboard ตัวเดียวกับ Sales ได้ ไม่ต้องสร้างของใหม่ทั้งชุด — <b style="color:var(--text)">เป็นขอบเขตที่คุ้มค่าที่สุดที่จะทำต่อเป็นลำดับถัดไป</b></p>
+  <div class="es-tbl-wrap reveal">
+  <table class="es-tbl">
+    <thead><tr><th>ส่วนงาน</th><th>ชั่วโมง</th><th>หมายเหตุ</th></tr></thead>
+    <tbody>
+      <tr><td class="item">0. เรียนรู้และทำความเข้าใจข้อมูล</td><td class="hrs">2–4<br>หรือ 4–8</td><td><b>2–4 ชม.</b> ถ้าทีม Tech ส่ง document table + handoff ให้<br><b>4–8 ชม.</b> ถ้าทีม Tech ไม่มีเอกสารให้ ต้องไล่อ่านเอง</td></tr>
+      <tr><td class="item">1. Data Warehouse — Bronze</td><td class="hrs">—</td><td><span class="es-b tech">ทีม Tech</span> คง schema เดิม</td></tr>
+      <tr><td class="item">1. Data Warehouse — Silver</td><td class="hrs">2–4</td><td></td></tr>
+      <tr><td class="item">1. Data Warehouse — Gold</td><td class="hrs">1–2</td><td></td></tr>
+      <tr><td class="item">2. Data Hub (Power BI)</td><td class="hrs">2–4</td><td>ใส่รวมไปในตัวเดียวกับของ Sales</td></tr>
+      <tr><td class="item">3. Dashboard &amp; Report</td><td class="hrs">3–6</td><td>ใส่รวมไปในตัวเดียวกับของ Sales</td></tr>
+      <tr><td class="item">4. AI Analysis Engine</td><td class="hrs">2–4</td><td>clone process เดียวกับ Sales ครบทั้ง loop</td></tr>
+      <tr><td class="item">5. ML Layer</td><td class="hrs">ประเมินไม่ได้</td><td>ต้องตกลง scope ก่อน</td></tr>
+      <tr><td class="item">6. Knowledge Base</td><td class="hrs">3–6</td><td>business logic + Silver &amp; Gold</td></tr>
+      <tr><td class="item">7. AI Chatbot</td><td class="hrs">ยังไม่ประเมิน</td><td><span class="es-b tech">เสนอให้ Tech ทำ</span></td></tr>
+      <tr class="tot"><td>รวมขอบเขต B</td><td class="hrs">15–30 ชม.<br>(หรือ 17–34)</td><td>ตัวเลขบรรทัดล่าง = กรณีทีม Tech ไม่มีเอกสารให้</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- SCOPE C -->
+  <h3 class="sub reveal">ขอบเขต C · หลังบ้าน · Student &amp; CRM <span class="en">— ใหญ่ที่สุด ~79% ของงานที่เหลือ</span></h3>
+  <p class="lead reveal" style="margin-bottom:0;">ยังไม่ได้แตะเลย และเป็นก้อนที่หนักที่สุด เพราะระบบถูกสร้างใหม่ทำให้โครงสร้างข้อมูลเปลี่ยนเกือบทั้งหมด ต้องใช้เวลาเรียนรู้สูง และต้องออกแบบ data model ใหม่จริง ๆ ไม่ใช่แค่ clone</p>
+  <div class="es-tbl-wrap reveal">
+  <table class="es-tbl">
+    <thead><tr><th>ส่วนงาน</th><th>ชั่วโมง</th><th>หมายเหตุ</th></tr></thead>
+    <tbody>
+      <tr><td class="item">0. เรียนรู้ข้อมูล — FS</td><td class="hrs">8–16<br>หรือ 16–24</td><td>ตัวเลขบรรทัดล่าง = กรณีทีม Tech <b>ไม่มี</b> document table + handoff ให้</td></tr>
+      <tr><td class="item">0. เรียนรู้ข้อมูล — ESC</td><td class="hrs">8–12<br>หรือ 12–20</td><td>ตัวเลขบรรทัดล่าง = กรณีทีม Tech <b>ไม่มี</b> document table + handoff ให้</td></tr>
+      <tr><td class="item">1. Data Warehouse — Bronze</td><td class="hrs">—</td><td><span class="es-b tech">ทีม Tech</span></td></tr>
+      <tr><td class="item">1. Data Warehouse — Silver</td><td class="hrs">40</td><td>ต้องสร้าง data model ใหม่ 2 ตัว:<span class="es-note">• CRM Historical &amp; Action Model — เก็บประวัติและการกระทำทั้งหมด<br>• Student Model — รวมข้อมูลทุกอย่างของนักเรียนไว้ที่เดียว</span></td></tr>
+      <tr><td class="item">1. Data Warehouse — Gold</td><td class="hrs">16–24</td><td></td></tr>
+      <tr><td class="item">2. Data Hub (Power BI)</td><td class="hrs">8–16</td><td></td></tr>
+      <tr><td class="item">3. Dashboard &amp; Report</td><td class="hrs">16–24</td><td></td></tr>
+      <tr><td class="item">4. AI Analysis Engine</td><td class="hrs">4–8</td><td>clone process เดียวกับ Sales ครบทั้ง loop</td></tr>
+      <tr><td class="item">5. ML Layer</td><td class="hrs">ประเมินไม่ได้</td><td>ตัวอย่างโจทย์ที่ทำได้ (ยังไม่ใช่คำมั่น):<span class="es-note">• ทำนายลูกค้าที่จะเลิกเรียน (churn) + แนะนำ action<br>• แนะนำคอร์สสำหรับต่อคอร์ส หรือ cross-BU</span></td></tr>
+      <tr><td class="item">6. Knowledge Base</td><td class="hrs">16–24</td><td>business logic + Silver &amp; Gold</td></tr>
+      <tr><td class="item">7. AI Chatbot</td><td class="hrs">ยังไม่ประเมิน</td><td><span class="es-b tech">เสนอให้ Tech ทำ</span></td></tr>
+      <tr class="tot"><td>รวมขอบเขต C</td><td class="hrs">116–164 ชม.<br>(หรือ 128–180)</td><td>ตัวเลขบรรทัดล่าง = กรณีทีม Tech ไม่มีเอกสารให้ทั้ง FS และ ESC</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- TOTAL -->
+  <h3 class="sub reveal">รวมทั้งหมด <span class="en">— what's left, in hours</span></h3>
+  <div class="es-tbl-wrap reveal">
+  <table class="es-tbl">
+    <thead><tr><th>ขอบเขต</th><th>ชั่วโมงที่เหลือ</th><th>สัดส่วน</th><th>ลำดับที่แนะนำ</th></tr></thead>
+    <tbody>
+      <tr><td class="item">A · Lead &amp; Order &amp; Marketing</td><td class="hrs">14–44</td><td>~10%</td><td><b>1</b> — ปิดให้จบก่อน ของเกือบเสร็จแล้ว</td></tr>
+      <tr><td class="item">B · ทดลองเรียน</td><td class="hrs">15–34</td><td>~11%</td><td><b>2</b> — ถูกที่สุด เพราะ clone ของ A ได้</td></tr>
+      <tr><td class="item">C · หลังบ้าน (Student &amp; CRM)</td><td class="hrs">116–180</td><td>~79%</td><td><b>3</b> — ก้อนใหญ่ ต้องมีกำลังคนเพิ่มก่อนเริ่ม</td></tr>
+      <tr class="tot"><td>รวมงานที่ประเมินได้</td><td class="hrs">145–258 ชม.</td><td>100%</td><td>ยังไม่รวม ML Layer และ AI Chatbot</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout fact reveal"><span class="ic">📐</span><div><h4>ตัวเลขนี้แปลเป็นเวลาจริงเท่าไหร่</h4>
+    <p>145–258 ชม. คือ <b>เวลาลงมือทำล้วน ๆ</b> ไม่รวมประชุม รอ feedback หรือดูแลของที่ขึ้นใช้งานแล้ว ถ้าคิดที่กำลังคน part-time ~10 ชม./สัปดาห์ จะได้ประมาณ <b>15–26 สัปดาห์</b> ของเวลาทำงานสุทธิ ซึ่งในทางปฏิบัติหมายถึงประมาณ <b>6–12 เดือน</b> กว่าจะครบทั้ง loop</p>
+  </div></div>
+
+  <!-- OUT OF SCOPE -->
+  <h3 class="sub reveal">สิ่งที่ยังไม่รวมในตัวเลข <span class="en">— out of scope</span></h3>
+
+  <div class="callout key reveal"><span class="ic">💳</span><div><h4>ค่า License · ต้องอนุมัติงบก่อนใช้งานจริง</h4>
+    <p>Data Hub ที่ทำเสร็จแล้วจะเปิดใช้จริงได้ต้องซื้อ <b>Power BI license 2 account</b> — <b>1 account สำหรับ dev</b> (ใช้พัฒนาและ publish) และ <b>1 account สำหรับผู้ใช้งาน</b> ซึ่ง user ทุกคนจะเข้าใช้ผ่าน account เดียวกันนี้</p>
+  </div></div>
+
+  <div class="callout key reveal"><span class="ic">🎓</span><div><h4>การสอนผู้ใช้และ UAT</h4>
+    <p>ตัวเลขทั้งหมดเป็นเวลา "สร้างระบบ" ไม่ได้รวมเวลาสอน user ใช้ Data Hub และรอบแก้งานตาม feedback หลังส่งมอบ — ซึ่งเป็นตัวชี้ขาดว่าของที่ทำเสร็จจะถูกใช้จริงหรือไม่</p>
+  </div></div>
+
+  <div class="callout risk reveal"><span class="ic">🔧</span><div><h4>งานดูแลระบบหลังขึ้นใช้จริง (Maintenance)</h4>
+    <p>ทุกส่วนที่ขึ้น production จะกินเวลาของทีม data ถาวร — daily sync พังใครแก้ ผู้ใช้ถามใครตอบ แปลว่า <b>ยิ่ง deliver ได้มาก เวลาที่เหลือไว้สร้างของใหม่ยิ่งน้อยลง</b> นี่คือเหตุผลเชิงตัวเลขว่าทำไมงานที่เหลือทั้งหมดจะไม่จบด้วยกำลัง part-time</p>
+  </div></div>
+
+  <div class="callout reveal"><span class="ic">🤖</span><div><h4 style="color:var(--muted2);">ML Layer และ AI Chatbot</h4>
+    <p><b>ML Layer</b> — ยังประเมินไม่ได้ ต้องคุย scope ก่อนว่ามีโจทย์ธุรกิจข้อไหนที่คุ้มกับการทำ model จริง ๆ (ไม่ใช่ทำเพราะทำได้)<br>
+    <b>AI Chatbot</b> — เสนอให้ทีม Tech เป็นผู้ทำ เพราะมี how-to อยู่แล้ว รอแค่ Knowledge Base เสร็จก็ต่อยอดได้ทันที จึงยังไม่ประเมินเวลาในฝั่งทีม data</p>
+  </div></div>
+
+  <!-- RESOURCING -->
+  <div class="phase-divider reveal"><div class="phase-divider-line"></div><div class="phase-divider-label ai-layer">กำลังคน — Full-time vs จ้างราย Project</div><div class="phase-divider-line"></div></div>
+
+  <p class="lead reveal">
+    เมื่อกำลังคนปัจจุบันจะหมดวาระลง คำถามคือจะเดินแผนที่เหลือต่อด้วยใคร — มีสองทางเลือก คือ
+    <b style="color:var(--text)">จ้าง data คนใหม่แบบ full-time</b> หรือ <b style="color:var(--text)">จ้าง part-time คนใหม่เป็นราย project</b>
+    หัวข้อนี้อธิบายว่าทางเลือกที่สองถูกกว่าเฉพาะตอนเซ็นสัญญา แต่แพงกว่าเมื่อคิดทั้งเส้นทาง
+  </p>
+
+  <div class="callout key reveal"><span class="ic">📌</span><div><h4>ข้อเท็จจริงที่ต้องรู้ก่อนอ่านตัวเลขทั้งหมดในเอกสารนี้</h4>
+    <p>ตัวเลข 145–258 ชม. ถูกประเมินโดยคนที่ <b>เคยเป็น full-time ในองค์กรนี้มาก่อน</b> — รู้ business logic, รู้ว่าข้อมูลตัวไหนเชื่อได้ตัวไหนเชื่อไม่ได้, รู้ว่าต้องถามใคร และเป็นคนสร้าง Silver/Gold ของ Sales เอง <b>เวลาเรียนรู้ธุรกิจในตัวเลขเหล่านี้จึงเท่ากับศูนย์</b> เมื่อเปลี่ยนเป็นคนใหม่ ไม่ว่าจะ full-time หรือ part-time ต้องบวกเวลาส่วนนี้กลับเข้าไปทั้งหมด — และตอนนี้ยังไม่มีเอกสารให้อ่าน เพราะ Knowledge Base คือหนึ่งในงานที่ยังไม่ได้ทำ <b>คำถามจึงไม่ใช่ "จะจ่ายค่าเรียนรู้ไหม" แต่คือ "จะจ่ายกี่ครั้ง"</b></p>
+  </div></div>
+
+  <div class="es-tbl-wrap reveal">
+  <table class="es-tbl">
+    <thead><tr><th>ประเด็น</th><th style="color:var(--green);">Full-time คนใหม่ (ข้อเสนอ)</th><th>Part-time คนใหม่ · จ้างราย project</th></tr></thead>
+    <tbody>
+      <tr><td class="item">เวลาเรียนรู้ธุรกิจ</td><td>ต้องเรียนรู้เหมือนกัน แต่ <b>จ่ายครั้งเดียว</b> แล้วความรู้อยู่กับองค์กรตลอด</td><td><span class="neg">จ่ายซ้ำทุก project</span> — ข้อมูลชุดเดิม แต่เสียเวลาทำความเข้าใจใหม่ทุกครั้งที่เปลี่ยนคน</td></tr>
+      <tr><td class="item">ตัวเลขในเอกสารนี้ใช้ได้ไหม</td><td>ต้องบวกเวลาเรียนรู้ช่วงแรก จากนั้นเข้าใกล้ตัวเลขนี้</td><td><span class="neg">ใช้ไม่ได้ตรง ๆ</span> — ต้องประเมินใหม่ ปกติบวกอีก 20–40% ทุกก้อน</td></tr>
+      <tr><td class="item">ตอบคำถาม / แก้ปัญหาเร่งด่วน</td><td>ในวันทำการ</td><td>เฉพาะช่วงที่สัญญายังไม่จบ</td></tr>
+      <tr><td class="item">ดูแลระบบหลังส่งมอบ</td><td>เป็นเจ้าของงานต่อเนื่อง</td><td><span class="neg">ไม่มีใครดูแล</span> — จบ project แล้วจบเลย ต้องจ้างซ้ำทุกครั้งที่ระบบมีปัญหา</td></tr>
+      <tr><td class="item">ความรู้อยู่ที่ไหนหลังงานจบ</td><td>สะสมอยู่ในองค์กร</td><td><span class="neg">ออกไปกับผู้รับจ้าง</span> — กลับไปเจอปัญหาเดิมที่โปรเจกต์นี้ตั้งใจแก้</td></tr>
+      <tr><td class="item">ความต่อเนื่องของมาตรฐาน</td><td>ทุกขอบเขตทำด้วยมาตรฐานเดียวกัน ต่อยอดกันได้</td><td>คนละคนคนละมาตรฐาน — สุดท้ายต้องรื้อมาต่อใหม่</td></tr>
+      <tr><td class="item">สิทธิ์เข้าถึงข้อมูลลูกค้าจริง</td><td>พนักงาน มีความรับผิดชอบตามสัญญาจ้าง</td><td>คนนอกเข้าถึง production database — ต้องมี NDA และการควบคุมเพิ่ม</td></tr>
+      <tr><td class="item">การท้วงติง scope ที่ผิด</td><td>ท้วงได้ เพราะเป็นคนรับผลระยะยาวเอง</td><td>ทำตามสเปกที่สั่ง — ถ้าสเปกผิดก็ได้ของผิดตามงบ</td></tr>
+      <tr><td class="item">งานออกแบบ Data Model หลังบ้าน</td><td>ทำได้ เพราะสะสมบริบทธุรกิจไปเรื่อย ๆ</td><td><span class="neg">เสี่ยงสูงสุด</span> — Student Model / CRM Model ต้องตัดสินใจเชิงธุรกิจ ไม่ใช่แค่เขียนโค้ด</td></tr>
+      <tr class="tot"><td>ต้นทุนรวมที่แท้จริง</td><td>สูงตอนเริ่ม แต่คาดการณ์ได้และลดลงเมื่อคนเริ่มรู้งาน</td><td>ดูถูกตอนเซ็น แต่บวกค่าเรียนรู้ซ้ำ + ค่าจ้างซ้ำ + ค่าแก้ของเสีย</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout risk reveal"><span class="ic">💸</span><div><h4>ทำไม "จ้างเป็น project" ถึงแพงกว่าที่เห็น</h4>
     <ul>
-      <li>แยก Bronze ออกเป็น project ของตัวเอง และเพิ่มชั้น Bronze ให้ครบ</li>
-      <li>ดึง source ที่เหลือ (Marketing/Ads, ฯลฯ) เข้า Supabase ให้ครบ</li>
-      <li>ทำชั้นใช้งานจริง — Data Hub (Phase 2) และ Dashboard (Phase 3) — ให้ขึ้น production</li>
-      <li>ทำ AI Layer (Phase 4–6)</li>
-      <li>ขยายไป <b>CRM + Learning back-office</b></li>
+      <li><b>จ่ายค่าเรียนรู้ธุรกิจใหม่ทุกครั้ง</b> — จ้าง 3 project ก็จ่ายค่าทำความเข้าใจข้อมูล 3 รอบ ทั้งที่เป็นข้อมูลชุดเดิม</li>
+      <li><b>งานแต่ละก้อนต่อกันไม่สนิท</b> — คนละคนทำคนละมาตรฐาน สุดท้ายได้ระบบที่ต้องรื้อมาต่อใหม่ ซึ่งคือปัญหาเดิมที่เจอกับไฟล์ Power BI ชุดเก่า</li>
+      <li><b>ไม่มีใครรับผิดชอบตอนระบบพัง</b> — daily sync ล้มหลังจบสัญญา = ต้องเปิดจ้างใหม่ และรอคนใหม่มาไล่โค้ดที่ตัวเองไม่ได้เขียน</li>
+      <li><b>ราคาต่อชั่วโมงสูงกว่า</b> — งานราย project คิดรวมความเสี่ยงและ overhead ไว้ในราคาอยู่แล้ว</li>
     </ul>
-    <p style="margin-top:12px;color:var(--muted2);font-size:13.5px;line-height:1.8;">ปริมาณงานเท่านี้ <b style="color:var(--text)">เกินกำลังของ part-time 1 คน</b> — การจะทำให้ครบทั้ง loop ต้องมี <b style="color:var(--text)">full-time data owner</b> มาดูแล</p>
+  </div></div>
+
+  <div class="callout ask reveal"><span class="ic">🧭</span><div><h4>สรุปเชิงการตัดสินใจ</h4>
+    <p>งานที่เหลือไม่ใช่งาน "สร้างเสร็จแล้วจบ" แต่เป็นระบบที่ต้องมีคนดูแลต่อทุกวัน — <b>รูปแบบการจ้างจึงควรตรงกับลักษณะงาน</b> การจ้างราย project เหมาะกับงานที่มีจุดจบชัดเจน แต่แพลตฟอร์มข้อมูลไม่มีจุดจบแบบนั้น</p>
+    <p style="margin-top:10px;">และไม่ว่าจะเลือกทางไหน สิ่งที่ควรทำให้ทันก่อนกำลังคนปัจจุบันหมดวาระคือ <b>Knowledge Base ของขอบเขต Sales (8–16 ชม.)</b> เพราะตอนนี้ความรู้ทั้งหมดยังอยู่ในตัวคนเดียว — ถ้าไม่ถ่ายออกมาเป็นเอกสารก่อน คนใหม่จะต้องเริ่มจากศูนย์ทั้งที่ระบบสร้างไปแล้วครึ่งทาง</p>
+  </div></div>
+
+  <!-- RISK & ASK -->
+  <div class="phase-divider reveal"><div class="phase-divider-line"></div><div class="phase-divider-label ai-layer">ความเสี่ยงหลัก และสิ่งที่ขอ</div><div class="phase-divider-line"></div></div>
+
+  <div class="callout risk reveal"><span class="ic">⚠️</span><div><h4>ความเสี่ยงอันดับ 1 · ชั้น Bronze ขึ้นกับทีม Tech</h4>
+    <p>ทุกขอบเขตงานเริ่มไม่ได้จนกว่าชั้น Bronze จะพร้อม ซึ่งเป็นงานของทีม Tech ไม่ใช่ทีม data เวลาทั้งหมดที่ประเมินไว้ในเอกสารนี้ตั้งอยู่บนสมมติฐานว่า Bronze <b>คง schema เดิมทั้งหมด</b> (จึง clone process ของ Silver/Gold ได้ใน 2–4 ชม.) — ถ้า schema เปลี่ยน ตัวเลขในตารางจะต้องประเมินใหม่ทั้งหมด</p>
+    <p style="margin-top:10px;"><b>สิ่งที่ต้องการ:</b> ผู้รับผิดชอบและกำหนดวันส่งมอบ Bronze ที่ชัดเจนจากทีม Tech</p>
+  </div></div>
+
+  <div class="callout risk reveal"><span class="ic">🗄️</span><div><h4>ความเสี่ยงอันดับ 2 · Silver/Gold ยังรันบน production เดียวกับลูกค้า</h4>
+    <p>ปัจจุบันงานประมวลผลข้อมูลรันอยู่บน Supabase project เดียวกับที่ลูกค้าใช้จริง และยังไม่มีสำเนาข้อมูลดิบแยกไว้เป็น safety — เมื่อมี Supabase account แยกสำหรับ Bronze ความเสี่ยงข้อนี้จะหมดไป</p>
+  </div></div>
+
+  <div class="callout ask reveal"><span class="ic">🙋</span><div><h4>ข้อเสนอ · 3 ข้อที่ต้องการการตัดสินใจ</h4>
+    <ul>
+      <li><b>1. กำลังคน</b> — งาน 145–258 ชม. ที่เหลือ (โดยเฉพาะขอบเขตหลังบ้าน ~79%) เกินกำลัง part-time 1 คน ถ้าต้องการให้ครบทั้ง loop ต้องมี <b>full-time data owner</b> ไม่ใช่การจ้างราย project</li>
+      <li><b>2. งบ license</b> — อนุมัติ Power BI license 2 account (dev 1 + ผู้ใช้งาน 1) เพื่อเปิดใช้ Data Hub ที่ทำเสร็จแล้วให้เกิดประโยชน์จริง</li>
+      <li><b>3. Scope ของ ML</b> — นัดคุยเพื่อเลือกโจทย์ธุรกิจ 1–2 ข้อที่คุ้มค่าที่สุด (เช่น churn prediction, course recommendation) จึงจะประเมินเวลาได้</li>
+    </ul>
+  </div></div>
+
+  <div class="callout fact reveal"><span class="ic">✅</span><div><h4>ถ้าอนุมัติแค่ข้อเดียว แนะนำข้อไหน</h4>
+    <p>เริ่มที่ <b>ขอบเขต A + B (Sales และทดลองเรียน) รวมประมาณ 29–78 ชม.</b> เป็นก้อนที่เล็กที่สุดที่ทำให้ได้ระบบครบ loop จริงในสองสายงาน และเป็นการพิสูจน์ผลลัพธ์ให้เห็นก่อนตัดสินใจลงทุนกับขอบเขตหลังบ้านซึ่งใหญ่กว่ามาก — แต่ต้องมีคนรับช่วงต่อที่ชัดเจนก่อน ไม่เช่นนั้นงานที่ทำไปแล้วจะค้างอยู่เฉย ๆ</p>
   </div></div>
 </section>
 
